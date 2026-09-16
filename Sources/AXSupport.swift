@@ -10,12 +10,10 @@ enum AXSupport {
     ]
 
     static func isTrusted(prompt: Bool) -> Bool {
-        if prompt {
-            return AXIsProcessTrustedWithOptions(
-                [kAXTrustedCheckOptionPrompt.takeUnretainedValue(): true] as CFDictionary
-            )
-        }
-        return AXIsProcessTrusted()
+        _ = prompt
+        return AXIsProcessTrustedWithOptions(
+            [kAXTrustedCheckOptionPrompt.takeUnretainedValue(): false] as CFDictionary
+        )
     }
 
     static func openAccessibilitySettings() {
@@ -23,6 +21,16 @@ enum AXSupport {
             return
         }
         NSWorkspace.shared.open(url)
+    }
+
+    static func relaunch() {
+        let path = Bundle.main.bundlePath
+        let escaped = "'" + path.replacingOccurrences(of: "'", with: "'\\''") + "'"
+        let proc = Process()
+        proc.executableURL = URL(fileURLWithPath: "/bin/zsh")
+        proc.arguments = ["-c", "sleep 0.4; /usr/bin/open \(escaped)"]
+        try? proc.run()
+        NSApp.terminate(nil)
     }
 
     static func copy(_ element: AXUIElement, _ attribute: CFString) -> CFTypeRef? {

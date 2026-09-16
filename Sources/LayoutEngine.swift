@@ -4,7 +4,7 @@ import ApplicationServices
 
 enum LayoutEngine {
     static func capture() throws -> (windows: [PresetWindow], missed: [MissedWindow]) {
-        guard AXSupport.isTrusted(prompt: true) else {
+        guard AXSupport.isTrusted(prompt: false) else {
             throw LayoutError.accessibility
         }
         var result: [PresetWindow] = []

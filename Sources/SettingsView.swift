@@ -39,8 +39,13 @@ struct SettingsView: View {
                         .foregroundStyle(.secondary)
                 } else {
                     Text("Accessibility is required to read and set window frames.")
+                    Text("If the switch is already on, turn it off and on, then Relaunch.")
+                        .foregroundStyle(.secondary)
                     Button("Enable Accessibility") {
-                        model.refreshTrust(prompt: true)
+                        model.refreshTrust(prompt: false)
+                    }
+                    Button("Relaunch") {
+                        model.relaunch()
                     }
                 }
             }

@@ -3,11 +3,10 @@ import SwiftUI
 struct RootView: View {
     @EnvironmentObject private var model: AppModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @Environment(\.openSettings) private var openSettings
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: FunTheme.sectionSpacing) {
                 if let loadError = model.loadError {
                     Label(loadError, systemImage: "exclamationmark.triangle.fill")
                         .foregroundStyle(.red)
@@ -20,13 +19,22 @@ struct RootView: View {
                 }
 
                 if !model.axTrusted {
-                    VStack(alignment: .leading, spacing: 6) {
+                    VStack(alignment: .leading, spacing: FunTheme.innerSpacing) {
                         Text("Accessibility is required to capture and restore window frames.")
                             .fixedSize(horizontal: false, vertical: true)
-                        Button("Enable Accessibility") {
-                            model.refreshTrust(prompt: true)
+                        Text("If the switch is already on, turn it off and on, then Relaunch.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                        HStack {
+                            Button("Enable Accessibility") {
+                                model.refreshTrust(prompt: false)
+                            }
+                            .buttonStyle(.borderedProminent)
+                            Button("Relaunch") {
+                                model.relaunch()
+                            }
                         }
-                        .buttonStyle(.borderedProminent)
                     }
                 }
 
@@ -42,8 +50,16 @@ struct RootView: View {
                 if model.showSaveSheet {
                     saveForm
                 } else if model.presets.isEmpty {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Save the current window layout")
+                    VStack(alignment: .leading, spacing: FunTheme.innerSpacing) {
+                        Text("No presets")
+                            .font(.headline)
+                        if !model.axTrusted {
+                            Text("Accessibility is required to capture frames.")
+                                .foregroundStyle(.secondary)
+                        } else {
+                            Text("Name a layout, then restore it later.")
+                                .foregroundStyle(.secondary)
+                        }
                         Button("Save current as…") {
                             model.beginSave()
                         }
@@ -85,10 +101,7 @@ struct RootView: View {
                     .disabled(!model.axTrusted || model.isRestoring)
                 }
 
-                Button("Settings…") {
-                    openSettings()
-                }
-                .buttonStyle(.plain)
+                ExtraSettingsFooter()
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -98,10 +111,11 @@ struct RootView: View {
         .animation(reduceMotion ? nil : FunTheme.spring, value: model.suggested?.id)
         .animation(reduceMotion ? nil : FunTheme.spring, value: model.showSaveSheet)
         .animation(reduceMotion ? nil : FunTheme.spring, value: model.isRestoring)
+        .funPanel()
     }
 
     private var saveForm: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: FunTheme.innerSpacing) {
             Text("Save current as…")
                 .font(.headline)
             TextField("Name", text: $model.saveName)
@@ -153,6 +167,6 @@ struct RootView: View {
                 .disabled(model.isRestoring)
             }
         }
-        .padding(.vertical, 4)
+        .extraRowSurface()
     }
 }

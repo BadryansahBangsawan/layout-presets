@@ -53,10 +53,14 @@ final class AppModel: ObservableObject {
     }
 
     func refreshTrust(prompt: Bool) {
-        axTrusted = AXSupport.isTrusted(prompt: prompt)
+        axTrusted = AXSupport.isTrusted(prompt: false)
         if !axTrusted {
             AXSupport.openAccessibilitySettings()
         }
+    }
+
+    func relaunch() {
+        AXSupport.relaunch()
     }
 
     func beginSave() {
@@ -87,7 +91,7 @@ final class AppModel: ObservableObject {
             actionError = "Name is required."
             return
         }
-        guard axTrusted || AXSupport.isTrusted(prompt: true) else {
+        guard axTrusted || AXSupport.isTrusted(prompt: false) else {
             axTrusted = false
             actionError = LayoutError.accessibility.localizedDescription
             AXSupport.openAccessibilitySettings()
@@ -119,7 +123,7 @@ final class AppModel: ObservableObject {
 
     func restore(_ preset: LayoutPreset) {
         guard !isRestoring else { return }
-        guard axTrusted || AXSupport.isTrusted(prompt: true) else {
+        guard axTrusted || AXSupport.isTrusted(prompt: false) else {
             axTrusted = false
             actionError = LayoutError.accessibility.localizedDescription
             AXSupport.openAccessibilitySettings()

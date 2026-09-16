@@ -15,8 +15,6 @@ struct LayoutPresetsApp: App {
         MenuBarExtra("Layout Presets", systemImage: "rectangle.3.group") {
             RootView()
                 .environmentObject(model)
-                .background(.regularMaterial)
-                .funPanel()
         }
         .menuBarExtraStyle(.window)
 
