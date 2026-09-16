@@ -1,39 +1,56 @@
+<div align="center">
+
 # Layout Presets
 
-Save the current window layout and restore it later — frames, apps, optional project path.
+**Save and restore macOS window arrangements with one click.**  
+macOS menu extra — lives in the menu bar, no Dock icon.
 
-Menu extra for macOS 14+. It lives in the menu bar and does not show a Dock icon.
+<br/>
 
-## Features
+[![Latest Release](https://img.shields.io/github/v/release/BadryansahBangsawan/layout-presets?style=flat-square&color=76B900&label=latest)](https://github.com/BadryansahBangsawan/layout-presets/releases/latest)
+[![macOS](https://img.shields.io/badge/macOS-14%2B-black?style=flat-square&logo=apple)](https://github.com/BadryansahBangsawan/layout-presets/releases/latest)
+[![Swift](https://img.shields.io/badge/Swift-5.9%2B-F05138?style=flat-square&logo=swift&logoColor=white)](https://swift.org)
 
-- Capture on-screen windows (CoreGraphics + Accessibility).
-- Restore positions and sizes; launch missing apps when needed.
-- Windows that cannot be read or moved are listed under **Missed**, not a crash.
-- Optional project path on a preset; a suggestion appears when that path is frontmost.
-- Empty state: **Save the current window layout**.
+<br/>
 
-## Requirements
+</div>
 
-- macOS 14 Sonoma or later
-- Swift 5.9 or later
-- Accessibility to read and set window frames
+---
 
-## Install
+## Download
 
-Homebrew (macOS 14+):
+| Platform | File |
+|---|---|
+| **macOS** (Apple Silicon & Intel, macOS 14+) | `LayoutPresets-*-macos.zip` |
+
+[Go to Releases](https://github.com/BadryansahBangsawan/layout-presets/releases/latest)
+
+---
+
+## Installation
+
+### Homebrew (recommended)
 
 ```bash
 brew tap BadryansahBangsawan/mac-menu-apps
 brew install --cask layout-presets
 ```
 
-Opens as a menu extra (no Dock icon). The cask is ad-hoc signed. If Gatekeeper blocks it:
+A **Layout Presets** icon appears in the menu bar. If Gatekeeper blocks it on first launch:
 
 ```bash
-xattr -cr /Applications/LayoutPresets.app
+xattr -cr /Applications/LayoutPresets.app && open /Applications/LayoutPresets.app
 ```
 
-Build from source:
+Or: right-click the app, Open, then Open again. Still blocked? **System Settings → Privacy & Security → Open Anyway**.
+
+### GitHub Releases
+
+1. Download `LayoutPresets-*-macos.zip` from [Releases](https://github.com/BadryansahBangsawan/layout-presets/releases/latest)
+2. Unzip and drag **LayoutPresets** into Applications
+3. On first launch, run the xattr command above if Gatekeeper blocks it
+
+### Build from source
 
 ```bash
 git clone https://github.com/BadryansahBangsawan/layout-presets.git
@@ -42,35 +59,21 @@ bash package-app.sh
 open dist/LayoutPresets.app
 ```
 
-Enable **Open at Login** from Settings if you want it after reboot.
+Requires Xcode Command Line Tools and Swift 5.9+.
 
-## Usage
+---
 
-- **Save current as…** names a preset (and optional project folder).
-- Restore a preset from the list. Do not expect every system/utility window to move; those show up under Missed.
-- Suggested preset appears when the frontmost document sits under a saved project path.
+## Notes
 
-## Permissions
+– Requires Accessibility permission to read and set window frames.
+– Presets are stored in ~/Library/Application Support/LayoutPresets/.
+– Works best in non-fullscreen windows; fullscreen spaces are skipped.
+– No Dock icon; lives entirely in the menu bar.
 
-- **Accessibility** — required. Untrusted: banner **Accessibility is required to capture and restore window frames.** plus **Enable Accessibility**.
+---
 
-Denied permissions must not crash the app. You should see a banner and a button to open System Settings.
+<div align="center">
 
-## Privacy
+Made with ♥ for developers who prefer staying in the flow.
 
-No network. Presets are `~/Library/Application Support/Layout Presets/`.
-
-Bundle ID: `engineer.badry.layoutpresets`.
-
-## Development
-
-```bash
-swift build
-swift build -c release --product LayoutPresets
-```
-
-Layout: `Sources/` (SwiftPM executable), `Info.plist`, `Assets/AppIcon.icns`, `package-app.sh`.
-
-## License
-
-[MIT](LICENSE)
+</div>
