@@ -69,6 +69,7 @@ Requires Xcode Command Line Tools and Swift 5.9+.
 – Presets are stored in ~/Library/Application Support/LayoutPresets/.
 – Works best in non-fullscreen windows; fullscreen spaces are skipped.
 – No Dock icon; lives entirely in the menu bar.
+– On multi-display setups, save a preset while the target arrangement is visible on each screen — restore reapplies frames per display ID when that display is connected.
 
 ---
 
