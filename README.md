@@ -70,6 +70,7 @@ Requires Xcode Command Line Tools and Swift 5.9+.
 – Works best in non-fullscreen windows; fullscreen spaces are skipped.
 – No Dock icon; lives entirely in the menu bar.
 – On multi-display setups, save a preset while the target arrangement is visible on each screen — restore reapplies frames per display ID when that display is connected.
+– If Accessibility was denied once, open System Settings → Privacy & Security → Accessibility, toggle Layout Presets off/on, then quit and reopen the menu extra so AX permissions reload.
 
 ---
 
